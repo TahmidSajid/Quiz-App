@@ -11,8 +11,11 @@ function App() {
   const [screen, setScreen] = useState("start");
   const [index, setIndex] = useState(1);
   const [question, setQuestion] = useState({});
+  const [rightCount, setRightCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
 
   const handleSubmit = (value) => {
+    value ? setRightCount(rightCount + 1) : setWrongCount(wrongCount + 1);
     handleIndex();
   };
 
@@ -34,17 +37,20 @@ function App() {
 
   }
 
-  console.log(question);
-   
+  const handleReset = () => {
+    setScreen('start');
+    setRightCount(0);
+    setWrongCount(0);
+  }
 
   return (
     <>
       <Container className="vh-100 d-flex">
         <Row className="justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
-            {screen == "start" && <StartScreen handleSubmit={handleSubmit} />}
+            {screen == "start" && <StartScreen handleIndex={handleIndex} />}
             {screen == "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question}/>}
-            {screen == "end" && <ResultScreen handleSubmit={handleSubmit} />}
+            {screen == "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount}/>}
           </Col>
         </Row>
       </Container>
