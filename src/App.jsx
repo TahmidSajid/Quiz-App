@@ -13,15 +13,22 @@ function App() {
   const [question, setQuestion] = useState({});
   const [rightCount, setRightCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
+  const [answers, setAnswers] = useState([]);
 
-  const handleSubmit = (value) => {
-    value ? setRightCount(rightCount + 1) : setWrongCount(wrongCount + 1);
+  const handleSubmit = (result, question, answer) => {
+    result ? setRightCount(rightCount + 1) : setWrongCount(wrongCount + 1);
+
+    setAnswers([...answers,{
+      question: question,
+      answered: answer,
+    }]);
+
     handleIndex();
   };
 
   const handleIndex = ()=>{
     let questionId = index;
-    if(questions.length >= questionId){
+    if(questions.length > questionId){
       let question = questions[index]
       questionId = questionId + 1;
       setIndex(questionId);
@@ -31,7 +38,7 @@ function App() {
     }
 
     setQuestion({});
-    setIndex(1);
+    setIndex(0);
     setScreen('end');
     return true
 
@@ -49,8 +56,8 @@ function App() {
         <Row className="justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
             {screen == "start" && <StartScreen handleIndex={handleIndex} />}
-            {screen == "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question}/>}
-            {screen == "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount}/>}
+            {screen == "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={index}/>}
+            {screen == "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}
           </Col>
         </Row>
       </Container>

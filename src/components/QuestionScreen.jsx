@@ -3,23 +3,25 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import SuccessAlert from "./SuccessAlert";
 import DangerAlert from "./DangerAlert";
 
-const QuestionScreen = ({ handleSubmit, question }) => {
+const QuestionScreen = ({ handleSubmit, question, questionCount, answerCount }) => {
   const [result, setResult] = useState(null);
   const [lock, setLock] = useState(false);
+  const [answer, setAnswer] = useState();
 
   const judgeAnswer = (option) => {
-    if (option == question.answer) {
+    if (option === question.answer) {
       setResult(true);
     } else {
       setResult(false);
     }
+    setAnswer(option);
   };
 
   return (
     <>
       <Card>
         <Card.Body className="text-center">
-          <Card.Title>Answer The Question</Card.Title>
+          <Card.Title>Answer The Question {' ('+questionCount+' of '+answerCount+') '}</Card.Title>
           <Card.Text>{question.question}</Card.Text>
           <Row>
             {question.options.map((option, index) => {
@@ -27,7 +29,8 @@ const QuestionScreen = ({ handleSubmit, question }) => {
                 <Col key={index}>
                   <Button
                     variant="primary"
-                    className={lock ? 'disabled w-100':'w-100'}
+                    className='w-100'
+                    disabled={lock}
                     onClick={() => {
                       judgeAnswer(option);
                       setLock(true);
@@ -57,9 +60,9 @@ const QuestionScreen = ({ handleSubmit, question }) => {
         <Card.Footer className="d-flex justify-content-end">
           <Button
             variant="primary"
-            className={!lock ? 'disabled' : ''}
+            disabled={!lock}
             onClick={() => {
-              handleSubmit(result);
+              handleSubmit(result, question, answer);
               setLock(false);
               setResult(null);
             }}
