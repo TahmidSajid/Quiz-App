@@ -27,10 +27,9 @@ function App() {
   };
 
   const handleIndex = ()=>{
-    let questionId = index;
-    if(questions.length > questionId){
+    if(questions.length > index){
       let question = questions[index]
-      questionId = questionId + 1;
+      let questionId = index + 1;
       setIndex(questionId);
       setQuestion(question);
       setScreen('on-going');
@@ -46,6 +45,7 @@ function App() {
 
   const handleReset = () => {
     setScreen('start');
+    setAnswers([]);
     setRightCount(0);
     setWrongCount(0);
   }

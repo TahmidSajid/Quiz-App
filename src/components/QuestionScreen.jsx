@@ -21,7 +21,7 @@ const QuestionScreen = ({ handleSubmit, question, questionCount, answerCount }) 
     <>
       <Card>
         <Card.Body className="text-center">
-          <Card.Title>Answer The Question {' ('+questionCount+' of '+answerCount+') '}</Card.Title>
+          <Card.Title>Answer The Question {' ('+answerCount+' of '+questionCount+') '}</Card.Title>
           <Card.Text>{question.question}</Card.Text>
           <Row>
             {question.options.map((option, index) => {
@@ -43,13 +43,13 @@ const QuestionScreen = ({ handleSubmit, question, questionCount, answerCount }) 
             })}
           </Row>
           <Row className="mt-4">
-            {result == true && (
+            {result === true && (
               <Col>
                 {" "}
                 <SuccessAlert />{" "}
               </Col>
             )}
-            {result == false && (
+            {result === false && (
               <Col>
                 {" "}
                 <DangerAlert answer={question.answer} />{" "}

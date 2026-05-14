@@ -7,7 +7,6 @@ const ResultScreen = ({ handleReset, rightCount, wrongCount, answers }) => {
       <Card>
         <Card.Body className="text-center">
           <Card.Title>Your Result</Card.Title>
-          <Card.Text>########################</Card.Text>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -39,7 +38,7 @@ const ResultScreen = ({ handleReset, rightCount, wrongCount, answers }) => {
               </tr>
               {answers.map((data,index) => {
                 return (
-                  <tr key={index}>
+                  <tr key={data.answered}>
                     <td>{data.question.question}</td>
                     <td>{data.question.answer}</td>
                     <td className={data.question.answer === data.answered ? 'bg-success' : 'bg-danger'}>{data.answered}</td>
