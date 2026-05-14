@@ -9,7 +9,7 @@ import questions from "./data/question";
 
 function App() {
   const [screen, setScreen] = useState("start");
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(0);
   const [question, setQuestion] = useState({});
   const [rightCount, setRightCount] = useState(0);
   const [wrongCount, setWrongCount] = useState(0);
@@ -22,7 +22,7 @@ function App() {
   const handleIndex = ()=>{
     let questionId = index;
     if(questions.length >= questionId){
-      let question = questions.find((question) => question.id == questionId);
+      let question = questions[index]
       questionId = questionId + 1;
       setIndex(questionId);
       setQuestion(question);
