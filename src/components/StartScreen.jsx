@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 
-const StartScreen = ({ handleIndex }) => {
+const StartScreen = ({ handleStart }) => {
   return (
     <>
       <Card>
@@ -11,7 +11,7 @@ const StartScreen = ({ handleIndex }) => {
           <Button
             variant="primary"
             onClick={() => {
-              handleIndex();
+              handleStart();
             }}
           >
             {"Lets Start --------->"}
