@@ -6,9 +6,11 @@ import StartScreen from "./components/StartScreen";
 import QuestionScreen from "./components/QuestionScreen";
 import ResultScreen from "./components/ResultScreen";
 import questions from "./data/question";
+import LoginScreen from "./components/LoginScreen";
+import RegisterScreen from "./components/RegisterScreen";
 
 function App() {
-  const [screen, setScreen] = useState("start");
+  const [screen, setScreen] = useState("login");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [question, setQuestion] = useState({});
   const [rightCount, setRightCount] = useState(0);
@@ -60,6 +62,8 @@ function App() {
       <Container className="vh-100 d-flex">
         <Row className="justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
+            {screen === "login" && <LoginScreen setScreen={setScreen}/>}
+            {screen === "register" && <RegisterScreen setScreen={setScreen}/>}
             {screen === "start" && <StartScreen handleStart={handleStart} />}
             {screen === "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={currentIndex}/>}
             {screen === "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}
