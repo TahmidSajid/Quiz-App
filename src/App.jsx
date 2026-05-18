@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -8,6 +8,7 @@ import ResultScreen from "./components/ResultScreen";
 import questions from "./data/question";
 import LoginScreen from "./components/LoginScreen";
 import RegisterScreen from "./components/RegisterScreen";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
   const [screen, setScreen] = useState("login");
@@ -56,6 +57,8 @@ function App() {
   const handleStart = () => {
     handleIndex(currentIndex);
   }
+
+  
 
   return (
     <>
