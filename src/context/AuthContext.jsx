@@ -5,8 +5,8 @@ import { handleError, handleSuccess } from '../api/handler';
 export const AuthContext = createContext(null);
 
 export function AuthProvider({children}){
-    const [user, setUser] = useState();
-    const [token, setToken] = useState();
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
 
 
 

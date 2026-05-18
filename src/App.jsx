@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -11,12 +11,13 @@ import RegisterScreen from "./components/RegisterScreen";
 import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  const [screen, setScreen] = useState("login");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [question, setQuestion] = useState({});
-  const [rightCount, setRightCount] = useState(0);
-  const [wrongCount, setWrongCount] = useState(0);
-  const [answers, setAnswers] = useState([]);
+  const { user, token, register, login } = useContext(AuthContext);
+  const [screen, setScreen]              = useState("login");
+  const [currentIndex, setCurrentIndex]  = useState(0);
+  const [question, setQuestion]          = useState({});
+  const [rightCount, setRightCount]      = useState(0);
+  const [wrongCount, setWrongCount]      = useState(0);
+  const [answers, setAnswers]            = useState([]);
 
   const handleSubmit = (result, question, answer) => {
     result ? setRightCount(rightCount + 1) : setWrongCount(wrongCount + 1);
@@ -43,7 +44,7 @@ function App() {
     setQuestion({});
     setCurrentIndex(0);
     setScreen('end');
-    return true
+    return true;
 
   }
 
@@ -58,18 +59,23 @@ function App() {
     handleIndex(currentIndex);
   }
 
-  
+  useEffect(()=>{
+    if(token){
+      setScreen('start');
+    }
+  },[user,token])
+
 
   return (
     <>
       <Container className="vh-100 d-flex">
         <Row className="justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
-            {screen === "login" && <LoginScreen setScreen={setScreen}/>}
-            {screen === "register" && <RegisterScreen setScreen={setScreen}/>}
-            {screen === "start" && <StartScreen handleStart={handleStart} />}
-            {screen === "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={currentIndex}/>}
-            {screen === "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}
+            {!token && screen === "login" && <LoginScreen setScreen={setScreen}/>}
+            {!token && screen === "register" && <RegisterScreen setScreen={setScreen}/>}
+            {token && screen === "start" && <StartScreen handleStart={handleStart} />}
+            {token && screen === "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={currentIndex}/>}
+            {token && screen === "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}
           </Col>
         </Row>
       </Container>
