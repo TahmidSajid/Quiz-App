@@ -5,8 +5,8 @@ import { handleError, handleSuccess } from '../api/handler';
 export const AuthContext = createContext(null);
 
 export function AuthProvider({children}){
-    const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+    const [token, setToken] = useState(localStorage.getItem('token') || null);
 
 
 
@@ -18,8 +18,7 @@ export function AuthProvider({children}){
                 password: formData.password,
             });
             let data = handleSuccess(res,true);
-            setUser(data.user_info);
-            setToken(data.token);
+            setAuth(data.token, data.user_info);
             
         } catch (error) {
             handleError(error,true);
@@ -35,13 +34,26 @@ export function AuthProvider({children}){
                 password: formData.password,
             });
             let data = handleSuccess(res,true);
-            setUser(data.user);
-            setToken(data.token);
+            setAuth(data.token, data.user);
             
         } catch (error) {
             handleError(error,true);
         }
         
+    }
+
+    const setAuth = (token,user)=>{
+        localStorage.setItem('token',token);
+        localStorage.setItem('user',JSON.stringify(user));
+        setToken(token);
+        setUser(user);
+    }
+
+    const deleteAuth = ()=>{
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setToken('');
+        setUser('');
     }
 
     return(

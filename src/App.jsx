@@ -9,6 +9,7 @@ import questions from "./data/question";
 import LoginScreen from "./components/LoginScreen";
 import RegisterScreen from "./components/RegisterScreen";
 import { AuthContext } from "./context/AuthContext";
+import NavSection from "./components/NavSection";
 
 function App() {
   const { user, token, register, login } = useContext(AuthContext);
@@ -65,11 +66,18 @@ function App() {
     }
   },[user,token])
 
+  console.log(JSON.parse(localStorage.getItem('user')));
+  console.log(localStorage.getItem('token'));
 
   return (
     <>
-      <Container className="vh-100 d-flex">
+      <Container>
         <Row className="justify-content-center align-items-center w-100">
+          <Col>
+            <NavSection/>
+          </Col>
+        </Row>
+        <Row className="vh-100 d-flex justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
             {!token && screen === "login" && <LoginScreen setScreen={setScreen}/>}
             {!token && screen === "register" && <RegisterScreen setScreen={setScreen}/>}
