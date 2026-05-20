@@ -42,6 +42,17 @@ export function AuthProvider({children}){
         
     }
 
+    const logout = async (formData) => { 
+        try {
+            let res = await api.post('/logout');
+            let data = handleSuccess(res,true);
+            deleteAuth();
+        } catch (error) {
+            handleError(error,true);
+        }
+        
+    }
+
     const setAuth = (token,user)=>{
         localStorage.setItem('token',token);
         localStorage.setItem('user',JSON.stringify(user));
@@ -57,7 +68,7 @@ export function AuthProvider({children}){
     }
 
     return(
-        <AuthContext.Provider value={{user,token,register,login}}>
+        <AuthContext.Provider value={{user,token,register,login,logout}}>
             {children}
         </AuthContext.Provider>
     )

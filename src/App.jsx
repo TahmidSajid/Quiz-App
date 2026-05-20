@@ -12,13 +12,13 @@ import { AuthContext } from "./context/AuthContext";
 import NavSection from "./components/NavSection";
 
 function App() {
-  const { user, token, register, login } = useContext(AuthContext);
-  const [screen, setScreen]              = useState("login");
-  const [currentIndex, setCurrentIndex]  = useState(0);
-  const [question, setQuestion]          = useState({});
-  const [rightCount, setRightCount]      = useState(0);
-  const [wrongCount, setWrongCount]      = useState(0);
-  const [answers, setAnswers]            = useState([]);
+  const { user, token, register, login, logout } = useContext(AuthContext);
+  const [screen, setScreen]                      = useState("login");
+  const [currentIndex, setCurrentIndex]          = useState(0);
+  const [question, setQuestion]                  = useState({});
+  const [rightCount, setRightCount]              = useState(0);
+  const [wrongCount, setWrongCount]              = useState(0);
+  const [answers, setAnswers]                    = useState([]);
 
   const handleSubmit = (result, question, answer) => {
     result ? setRightCount(rightCount + 1) : setWrongCount(wrongCount + 1);
@@ -64,6 +64,9 @@ function App() {
     if(token){
       setScreen('start');
     }
+    else{
+      setScreen('login');
+    }
   },[user,token])
 
   console.log(JSON.parse(localStorage.getItem('user')));
@@ -74,7 +77,7 @@ function App() {
       <Container>
         <Row className="justify-content-center align-items-center w-100">
           <Col>
-            <NavSection/>
+            {token && <NavSection/>}
           </Col>
         </Row>
         <Row className="vh-100 d-flex justify-content-center align-items-center w-100">

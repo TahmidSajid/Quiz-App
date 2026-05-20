@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { AuthContext } from "../context/AuthContext";
 
 const LoginScreen = ({ setScreen }) => {
-  const { user, token, register, login } = useContext(AuthContext);
+  const { user, token, register, login, logout } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
