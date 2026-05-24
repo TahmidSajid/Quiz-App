@@ -10,12 +10,16 @@ import LoginScreen from "./components/LoginScreen";
 import RegisterScreen from "./components/RegisterScreen";
 import { AuthContext } from "./context/AuthContext";
 import NavSection from "./components/NavSection";
+import api from "./api/axios";
+import { handleError, handleSuccess } from "./api/handler";
+import toast from "react-hot-toast";
 
 function App() {
   const { user, token, register, login, logout } = useContext(AuthContext);
   const [screen, setScreen]                      = useState("login");
   const [currentIndex, setCurrentIndex]          = useState(0);
   const [question, setQuestion]                  = useState({});
+  const [questions, setQuestions]                = useState(null);
   const [rightCount, setRightCount]              = useState(0);
   const [wrongCount, setWrongCount]              = useState(0);
   const [answers, setAnswers]                    = useState([]);
@@ -31,15 +35,53 @@ function App() {
     handleIndex(currentIndex);
   };
 
-  const handleIndex = (index)=>{
-    console.log(index);
-    if(questions.length > index){
-      let question = questions[index]
+  const getQuestion = async () => {
+    try {
+
+      let res = await api.get('/questions');
+      let questions = handleSuccess(res,true);
+      setQuestions(questions);
+      return questions;
+
+    } catch (error) {
+
+      handleError(error,true);
+    
+    }
+  }
+
+  const saveAnswers = async (answers) => {
+    try {
+
+      let res = await api.post('/answers',answers);
+      handleSuccess(res,true);
+      return true;
+
+    } catch (error) {
+
+      handleError(error,true);
+      throw error;
+    
+    }
+  } 
+
+  const handleIndex = async (index)=>{
+    
+    let qusData = questions;
+
+    if(!qusData){
+      qusData = await getQuestion();
+    }
+
+    if(qusData.length > index){
+
+      let question = qusData[index]
       let futureIndex = index + 1;
       setCurrentIndex(futureIndex);
       setQuestion(question);
       setScreen('on-going');
       return true;
+    
     }
 
     setQuestion({});
@@ -49,11 +91,23 @@ function App() {
 
   }
 
-  const handleReset = () => {
-    setScreen('start');
-    setAnswers([]);
-    setRightCount(0);
-    setWrongCount(0);
+  const handleReset = async () => {
+    let answerData  = answers.map((answer)=>({
+        questionId : answer.question.uuid,
+        answer : answer.answered,
+    }));
+
+    try {
+      await saveAnswers(answerData);
+      setScreen('start');
+      setAnswers([]);
+      setQuestions(null);
+      setRightCount(0);
+      setWrongCount(0);
+    } catch (error) {
+      toast.error('Answer Saving Failed');
+    }
+    
   }
 
   const handleStart = () => {
@@ -69,8 +123,6 @@ function App() {
     }
   },[user,token])
 
-  console.log(JSON.parse(localStorage.getItem('user')));
-  console.log(localStorage.getItem('token'));
 
   return (
     <>
