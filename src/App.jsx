@@ -13,6 +13,7 @@ import NavSection from "./components/NavSection";
 import api from "./api/axios";
 import { handleError, handleSuccess } from "./api/handler";
 import toast from "react-hot-toast";
+import RecordScreen from "./components/RecordScreen";
 
 function App() {
   const { user, token, register, login, logout } = useContext(AuthContext);
@@ -97,6 +98,8 @@ function App() {
         answer : answer.answered,
     }));
 
+    console.log(answerData);
+    
     try {
       await saveAnswers(answerData);
       setScreen('start');
@@ -129,13 +132,14 @@ function App() {
       <Container>
         <Row className="justify-content-center align-items-center w-100">
           <Col>
-            {token && <NavSection/>}
+            {token && <NavSection setScreen={setScreen}/>}
           </Col>
         </Row>
         <Row className="vh-100 d-flex justify-content-center align-items-center w-100">
           <Col className="col-lg-6">
             {!token && screen === "login" && <LoginScreen setScreen={setScreen}/>}
             {!token && screen === "register" && <RegisterScreen setScreen={setScreen}/>}
+            {token && screen === "result" && <RecordScreen/>}
             {token && screen === "start" && <StartScreen handleStart={handleStart} />}
             {token && screen === "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={currentIndex}/>}
             {token && screen === "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}
