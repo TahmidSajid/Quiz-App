@@ -7,18 +7,18 @@ const LoginScreen = ({ setScreen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({
+    let success = await login({
       email: email,
       password: password,
     });
-  };
 
-  // useEffect(() => {
-  //   console.log(user);
-  //   console.log(token);
-  // }, [user, token]);
+    if(success){
+      setEmail('');
+      setPassword('');
+    }
+  };
 
   return (
     <>
@@ -35,6 +35,7 @@ const LoginScreen = ({ setScreen }) => {
               <Form.Control
                 type="email"
                 placeholder="name@example.com"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
@@ -43,6 +44,7 @@ const LoginScreen = ({ setScreen }) => {
               <Form.Control
                 type="password"
                 placeholder="*********"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>

@@ -16,9 +16,11 @@ export function AuthProvider({children}){
                 name: formData.name,
                 email: formData.email,
                 password: formData.password,
+                password_confirmation: formData.password_confirmation,
             });
             let data = handleSuccess(res,true);
             setAuth(data.token, data.user_info);
+            return true;
             
         } catch (error) {
             handleError(error,true);
@@ -35,6 +37,7 @@ export function AuthProvider({children}){
             });
             let data = handleSuccess(res,true);
             setAuth(data.token, data.user);
+            return true;
             
         } catch (error) {
             handleError(error,true);

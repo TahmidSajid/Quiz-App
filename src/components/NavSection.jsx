@@ -16,7 +16,7 @@ const NavSection = ({setScreen}) => {
           <Nav>
             <Button 
               onClick={() => {
-                setScreen('result');
+                setScreen('record');
               }}
             >
               Results
@@ -26,7 +26,7 @@ const NavSection = ({setScreen}) => {
                 logout();
               }}
             >
-              Logut
+              Logout
             </Button>
           </Nav>
         </Container>

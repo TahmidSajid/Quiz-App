@@ -26,10 +26,11 @@ const RecordScreen = () => {
       <Card>
         <Card.Body className="text-center">
           <Card.Title>Your Result</Card.Title>
+          {!results && <h4>Loading....</h4>}
           {results &&
             results.map((result, key) => {
               return (
-                <Table striped bordered hover key={key}>
+                <Table striped bordered hover key={result.id}>
                   <thead>
                     <tr>
                       <th colSpan="3">Answers</th>

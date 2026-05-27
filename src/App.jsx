@@ -139,7 +139,7 @@ function App() {
           <Col className="col-lg-6">
             {!token && screen === "login" && <LoginScreen setScreen={setScreen}/>}
             {!token && screen === "register" && <RegisterScreen setScreen={setScreen}/>}
-            {token && screen === "result" && <RecordScreen/>}
+            {token && screen === "record" && <RecordScreen/>}
             {token && screen === "start" && <StartScreen handleStart={handleStart} />}
             {token && screen === "on-going" && <QuestionScreen handleSubmit={handleSubmit} question={question} questionCount={questions.length} answerCount={currentIndex}/>}
             {token && screen === "end" && <ResultScreen handleReset={handleReset} rightCount={rightCount} wrongCount={wrongCount} answers={answers}/>}

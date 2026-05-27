@@ -8,20 +8,24 @@ const RegisterScreen = ({ setScreen }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    register({
+    let success = await register({
       name: name,
       email: email,
       password: password,
+      password_confirmation: confirmPassword,
     });
-  };
 
-  // useEffect(()=>{
-  //   console.log(user);
-  //   console.log(token);
-  // },[user,token])
+    if(success){
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+    }
+  };
 
   return (
     <>
@@ -38,6 +42,7 @@ const RegisterScreen = ({ setScreen }) => {
               <Form.Control
                 type="name"
                 placeholder="Emil*****"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
@@ -46,6 +51,7 @@ const RegisterScreen = ({ setScreen }) => {
               <Form.Control
                 type="email"
                 placeholder="name@example.com"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Group>
@@ -54,7 +60,17 @@ const RegisterScreen = ({ setScreen }) => {
               <Form.Control
                 type="password"
                 placeholder="*********"
+                value={password}
                 onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="*********"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
             <Form.Group>
